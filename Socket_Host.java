@@ -35,6 +35,17 @@ public class Socket_Host {
 			System.err.println("IOException");
 		}
 		
+		String response;
+		try {
+			while ((response = in.readLine()) != null) 
+			{
+			    System.out.println( response );
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		try
         {
             in.close();

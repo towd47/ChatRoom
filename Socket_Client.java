@@ -25,6 +25,8 @@ public class Socket_Client {
 			System.err.println("IOException");
 			return false;
 		}
+
+		ClientInput.run(s_out);
 		
 		String response;
 	    try {
