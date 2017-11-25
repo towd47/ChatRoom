@@ -33,17 +33,8 @@ public class Socket_Client {
 		}
 
 		new ClientInputThread(s_out).start();
+		new ClientOutputThread(s_in).start();
 		
-		String response;
-	    try {
-			while ((response = s_in.readLine()) != null) 
-			{
-			    System.out.println( response );
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	    return true;
 	}
 	
