@@ -27,6 +27,9 @@ public class HostThread extends Thread {
         while (true) {
             try {
                 line = brin.readLine();
+                if (line == null) {
+                    return;
+                }
                 for (Socket s: Socket_Host.getClients()) {
                 	out = new PrintStream(s.getOutputStream());
                 	out.println(line);

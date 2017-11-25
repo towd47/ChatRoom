@@ -5,16 +5,22 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Socket_Client {
+	String host;
+	int port;
+
+	public Socket_Client(String host, int port) {
+		this.host = host;
+		this.port = port;
+	}
 	
-	public static boolean socket_client() {
+	public boolean startClient() {
 		Socket socket = null;
-		String localhost = "localhost";
-		int port = 5000;
+
 		PrintWriter s_out = null;
 		BufferedReader s_in = null;
 		
 		try {
-			socket = new Socket(localhost, port);
+			socket = new Socket(host, port);
 			System.out.println("Connected");
 			
 			s_out = new PrintWriter(socket.getOutputStream(), true);
