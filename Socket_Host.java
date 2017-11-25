@@ -3,9 +3,12 @@ import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Socket_Host {
-	
+
+	static ArrayList<Socket> clientList = new ArrayList<Socket>();
+
 	public static void socket_host() {
 		ServerSocket socket = null;
 		Socket conn = null;
@@ -13,6 +16,7 @@ public class Socket_Host {
 		BufferedReader in = null;
 		String message = null;
 		int port = 5000;
+
 		
 		try {
 			socket = new ServerSocket(port, 10);
@@ -35,7 +39,18 @@ public class Socket_Host {
 			System.err.println("IOException");
 		}
 		
-		String response;
+		while(true) {
+			try {
+				conn = socket.accept();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+
+			new HostThread(conn).start();
+			clientList.add(conn);
+		}
+		
+		/*String response;
 		try {
 			while ((response = in.readLine()) != null) 
 			{
@@ -56,7 +71,10 @@ public class Socket_Host {
         catch(IOException ioException)
         {
             System.err.println("Unable to close. IOexception");
-        }
+        }*/
 	}
 	
+	public static ArrayList<Socket> getClients() {
+		return clientList;
+	}
 }

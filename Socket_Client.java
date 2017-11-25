@@ -26,7 +26,7 @@ public class Socket_Client {
 			return false;
 		}
 
-		ClientInput.run(s_out);
+		new ClientInputThread(s_out).start();
 		
 		String response;
 	    try {
