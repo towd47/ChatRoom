@@ -32,9 +32,15 @@ public class HostChatThread extends Thread {
                 if (line == null) {
                     return;
                 }
-                for (Socket s: Socket_Host.getClients()) {
-                	out = new PrintStream(s.getOutputStream());
-                	out.println(line);
+                for (ChatRoom room: Socket_Host.getRooms()) {
+                    if (room.roomName.equals(this.roomName)) {
+                        //for (Socket s: room.getMembers()) {
+                        for (Socket s: Socket_Host.getClients()) {
+                        	out = new PrintStream(s.getOutputStream());
+                    	    out.println(line);
+                        }
+                        break;
+                    }
                 }
 
             } catch (IOException e) {

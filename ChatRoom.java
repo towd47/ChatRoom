@@ -19,6 +19,10 @@ public class ChatRoom {
 	}
 
 	public void addMember(Socket member) {
-		members.add(member);
+		this.members.add(member);
+	}
+
+	public ArrayList<Socket> getMembers() {
+		return members;
 	}
 }

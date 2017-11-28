@@ -89,6 +89,7 @@ public class HostThread extends Thread {
         else {
             newRoom = new ChatRoom(name);
         }
+        //newRoom.addMember(socket);
         Socket_Host.addChatRoom(newRoom);
         HostChatThread chatThread = new HostChatThread(socket, name);
         chatThread.start();
@@ -122,6 +123,7 @@ public class HostThread extends Thread {
         for (ChatRoom room: rooms) {
             if (room.roomName.equals(line)) {
                 out.println("Joining room " + room.roomName + ".");
+                //room.addMember(socket);
                 HostChatThread chatThread = new HostChatThread(socket, room.roomName);
                 chatThread.start();
                 try {
