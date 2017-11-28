@@ -15,5 +15,7 @@ public class ChatRoomRunner {
 		if (!client.startClient()) {
 			Socket_Host.socket_host();
 		}
+		
+		return;
 	}
 }

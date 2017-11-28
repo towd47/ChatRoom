@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class HostChatThread extends Thread {
 	protected Socket socket;
     private String roomName;
+    private String username;
 
-	public HostChatThread(Socket clientSocket, String roomName) {
+	public HostChatThread(Socket clientSocket, String roomName, String username) {
 		this.socket = clientSocket;
         this.roomName = roomName;
+        this.username = username;
 	}
 
 	public void run() {
@@ -37,7 +39,7 @@ public class HostChatThread extends Thread {
                         //for (Socket s: room.getMembers()) {
                         for (Socket s: Socket_Host.getClients()) {
                         	out = new PrintStream(s.getOutputStream());
-                    	    out.println(line);
+                    	    out.println(username + ": " + line);
                         }
                         break;
                     }

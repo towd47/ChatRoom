@@ -6,6 +6,7 @@ public class HostThread extends Thread {
 	protected Socket socket;
     PrintStream out;
     BufferedReader brin;
+    private String username;
 
 	public HostThread(Socket clientSocket) {
 		this.socket = clientSocket;
@@ -23,14 +24,22 @@ public class HostThread extends Thread {
             return;
         }
 
+        out.println("Please enter your username:");
+
+        String line;
+        try {
+            username = brin.readLine();
+            out.println("Your username is: " + username);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
         out.println("Some commands you can use are:\njoin\ncreate\nquit");
 
-        String line;
         while (true) {
             try {
                 line = brin.readLine();
-                out.println(line);
                 runCommand(line);
             }
             catch (IOException e) {
@@ -91,7 +100,7 @@ public class HostThread extends Thread {
         }
         //newRoom.addMember(socket);
         Socket_Host.addChatRoom(newRoom);
-        HostChatThread chatThread = new HostChatThread(socket, name);
+        HostChatThread chatThread = new HostChatThread(socket, name, username);
         chatThread.start();
         try {
             chatThread.join();
@@ -124,7 +133,7 @@ public class HostThread extends Thread {
             if (room.roomName.equals(line)) {
                 out.println("Joining room " + room.roomName + ".");
                 //room.addMember(socket);
-                HostChatThread chatThread = new HostChatThread(socket, room.roomName);
+                HostChatThread chatThread = new HostChatThread(socket, room.roomName, username);
                 chatThread.start();
                 try {
                     chatThread.join();

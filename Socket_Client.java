@@ -32,8 +32,19 @@ public class Socket_Client {
 			return false;
 		}
 
-		new ClientInputThread(s_out).start();
-		new ClientOutputThread(s_in).start();
+		ClientInputThread inputThread = new ClientInputThread(s_out);
+		inputThread.start();
+		ClientOutputThread outputThread = new ClientOutputThread(s_in);
+		outputThread.start();
+
+		try {
+			outputThread.join();
+		}
+		catch (InterruptedException e) {
+
+		}
+		inputThread.interrupt();
+		System.out.print("Connection to server lost, press any key to exit.");
 		
 	    return true;
 	}
