@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Socket_Host {
 
 	static ArrayList<Socket> clientList = new ArrayList<Socket>();
+	static ArrayList<ChatRoom> chatRooms = new ArrayList<ChatRoom>();
 
 	public static void socket_host() {
 		ServerSocket socket = null;
@@ -47,5 +48,13 @@ public class Socket_Host {
 	
 	public static ArrayList<Socket> getClients() {
 		return clientList;
+	}
+
+	public static ArrayList<ChatRoom> getRooms() {
+		return chatRooms;
+	}
+
+	public static void addChatRoom(ChatRoom room) {
+		chatRooms.add(room);
 	}
 }

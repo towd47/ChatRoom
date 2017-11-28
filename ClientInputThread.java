@@ -11,19 +11,14 @@ public class ClientInputThread extends Thread{
 
 	public void run() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("What would you like your username to be for this chat room?\n>>");
-		username = scanner.nextLine();
-		System.out.println("Your username is: " + username);
+		//System.out.print("What would you like your username to be for this chat room?\n>>");
+		//username = scanner.nextLine();
+		//System.out.println("Your username is: " + username);
 		while (true) {
 			System.out.print(">>");
 			String input = scanner.nextLine();
-			if (input.charAt(0) == '/') {
-				
-			}
-			else {
-				writer.println(username + ": " + input);
-				writer.flush();
-			}
+			writer.println(input);
+			writer.flush();
 		}
 	}
 
