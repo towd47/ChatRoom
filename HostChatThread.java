@@ -29,7 +29,7 @@ public class HostChatThread extends Thread {
         while (true) {
             try {
                 line = brin.readLine();
-                if (line == null) {
+                if (line == null || line.equals("/quit")) {
                     return;
                 }
                 for (ChatRoom room: Socket_Host.getRooms()) {
