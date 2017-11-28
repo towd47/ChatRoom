@@ -13,6 +13,7 @@ public class ChatRoomRunner {
 		Socket_Client client = new Socket_Client(host, port);
 
 		if (!client.startClient()) {
+			System.out.println("Now starting new server on port " + port + ".");
 			Socket_Host.socket_host();
 		}
 		

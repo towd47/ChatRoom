@@ -41,7 +41,9 @@ public class Socket_Host {
 				e.printStackTrace();
 			}
 
-			new HostThread(conn).start();
+			HostThread hostThread = new HostThread(conn);
+			hostThread.start();
+			new ClientConnectionWatcher(hostThread, conn).start();
 			clientList.add(conn);
 		}
 	}

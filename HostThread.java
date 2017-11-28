@@ -40,6 +40,9 @@ public class HostThread extends Thread {
         while (true) {
             try {
                 line = brin.readLine();
+                if (line == null) {
+                    return;
+                }
                 runCommand(line);
             }
             catch (IOException e) {

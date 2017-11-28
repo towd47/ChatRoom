@@ -28,7 +28,7 @@ public class Socket_Client {
 		}
 		
 		catch(IOException e) {
-			System.err.println("IOException");
+			System.err.println("Unable to find existing server to connect to.");
 			return false;
 		}
 
