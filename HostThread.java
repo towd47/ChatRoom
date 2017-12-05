@@ -35,34 +35,42 @@ public class HostThread extends Thread {
             e.printStackTrace();
         }
 
-        out.println("Some commands you can use are:\njoin\ncreate\nquit");
-
         while (true) {
-            try {
-                line = brin.readLine();
-                if (line == null) {
-                    return;
-                }
-                runCommand(line);
-            }
-            catch (IOException e) {
-                e.printStackTrace();
+            out.println("What would you like to do?\njoin\ncreate\nchange name\nquit");
+            line = getInput();
+            if (line == null || !runCommand(line.trim())) {
+                return;
             }
         }
 	}
 
-    private void runCommand(String command) {
+    private boolean runCommand(String command) {
         switch (command) {
             case "join":
-                joinRoom();
+                joinCommand();
                 break;
             case "create":
                 createRoom();
                 break;
-            case "quit":
+            case "change name": 
+                out.println("Please enter your username:");
+                String line = getInput();
+                if (line != null && line.length() > 0) {
+                    username = line;
+                    out.println("Your username is: " + username);
+                }
                 break;
+            case "quit":
+                try {
+                    socket.close();
+                    return false;
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
             default:
         }
+        return true;
     }
 
     private boolean createRoom() {
@@ -72,12 +80,7 @@ public class HostThread extends Thread {
         while (!roomAvailable) {
             roomAvailable = true;
             out.println("Please enter a name for your chat room:");
-            try {
-                line = brin.readLine();
-            }
-            catch (IOException e) {
-                return false;
-            }
+            line = getInput();
             for (ChatRoom room: rooms) {
                 if (line == room.roomName) {
                     out.println("There is already a chat room with that name.");
@@ -101,54 +104,57 @@ public class HostThread extends Thread {
         else {
             newRoom = new ChatRoom(name);
         }
-        newRoom.addMember(socket);
         Socket_Host.addChatRoom(newRoom);
-        HostChatThread chatThread = new HostChatThread(socket, name, username);
-        chatThread.start();
-        try {
-            chatThread.join();
-        }
-        catch (InterruptedException e) {
-            return false;
-        }
+        joinRoom(newRoom);
         return true;
     }
 
-    private boolean joinRoom() {
+    private void joinCommand() {
         ArrayList<ChatRoom> rooms = Socket_Host.getRooms();
         if (rooms.size() == 0) {
             out.println("There are no available chatrooms at this time.");
-            return false;
+            return;
         }
         out.println("The available rooms are:");
         for (ChatRoom room: rooms) {
             out.println(room.roomName);
         }
-        String line = "";
         out.println("Which room would you like to join?");
-        try {
-            line = brin.readLine();
-        }
-        catch (IOException e) {
-            return false;
-        }
+        String line = getInput();
         for (ChatRoom room: rooms) {
-            if (room.roomName.equals(line)) {
-                out.println("Joining room " + room.roomName + ".");
-                room.addMember(socket);
-                HostChatThread chatThread = new HostChatThread(socket, room.roomName, username);
-                chatThread.start();
-                try {
-                    chatThread.join();
-                }
-                catch (InterruptedException e) {
-                    return false;
-                }
-                return true;
+            if (room.roomName.equals(line.trim())) {
+                joinRoom(room);
+                return;
             }
         }
-        out.println("No chat room with the name " + line + " was found.");
-        return false;
+        out.println("No chat room with the name '" + line + "' was found.");
     }
 
+    private void joinRoom(ChatRoom room) {
+        room.addMember(socket);
+        out.println("Joining room: " + room.roomName + ".");
+        HostChatThread chatThread = new HostChatThread(socket, room.roomName, username);
+        chatThread.start();
+        try {
+            chatThread.join();
+            room.removeMember(socket);
+            if (room.getMembers().size() == 0) {
+                Socket_Host.removeRoom(room);
+            }
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getInput() {
+        try {
+            String line = brin.readLine();
+            return line;
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

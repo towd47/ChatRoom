@@ -59,4 +59,8 @@ public class Socket_Host {
 	public static void addChatRoom(ChatRoom room) {
 		chatRooms.add(room);
 	}
+
+	public static boolean removeRoom(ChatRoom room) {
+		return chatRooms.remove(room);
+	}
 }

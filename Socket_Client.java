@@ -13,6 +13,7 @@ public class Socket_Client {
 		this.port = port;
 	}
 	
+	//Connects the client with the server socket
 	public boolean startClient() {
 		Socket socket = null;
 
@@ -32,6 +33,7 @@ public class Socket_Client {
 			return false;
 		}
 
+		// Starts two threads, one for handeling all client input, and one for output
 		ClientInputThread inputThread = new ClientInputThread(s_out);
 		inputThread.start();
 		ClientOutputThread outputThread = new ClientOutputThread(s_in);

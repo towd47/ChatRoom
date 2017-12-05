@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class ChatRoomRunner {
 	
@@ -13,8 +14,13 @@ public class ChatRoomRunner {
 		Socket_Client client = new Socket_Client(host, port);
 
 		if (!client.startClient()) {
-			System.out.println("Now starting new server on port " + port + ".");
-			Socket_Host.socket_host();
+			System.out.println("Would you like to host a server? (y/n)");
+			Scanner scanner = new Scanner(System.in);
+			String input = scanner.nextLine();
+			if (input.equals("y")) {
+				System.out.println("Now starting new server on port " + port + ".");
+				Socket_Host.socket_host();
+			}
 		}
 		
 		return;

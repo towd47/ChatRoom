@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+// Prints out all messages in clients terminal that are recieved from the server
 public class ClientOutputThread extends Thread{
 	BufferedReader s_in;
 
@@ -17,7 +18,6 @@ public class ClientOutputThread extends Thread{
 			    System.out.println( response );
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return;

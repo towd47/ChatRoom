@@ -1,6 +1,7 @@
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+// Sends all clientside input to the host socket
 public class ClientInputThread extends Thread{
 	PrintWriter writer;
 	String username;
@@ -11,15 +12,10 @@ public class ClientInputThread extends Thread{
 
 	public void run() {
 		Scanner scanner = new Scanner(System.in);
-		//System.out.print("What would you like your username to be for this chat room?\n>>");
-		//username = scanner.nextLine();
-		//System.out.println("Your username is: " + username);
 		while (!Thread.interrupted()) {
-			System.out.print(">>");
 			String input = scanner.nextLine();
 			writer.println(input);
 			writer.flush();
 		}
 	}
-
 }

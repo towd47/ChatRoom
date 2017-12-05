@@ -21,7 +21,11 @@ public class ChatRoom {
 	}
 
 	public void addMember(Socket member) {
-		this.members.add(member);
+		members.add(member);
+	}
+
+	public void removeMember(Socket member) {
+		members.remove(member);
 	}
 
 	public ArrayList<Socket> getMembers() {

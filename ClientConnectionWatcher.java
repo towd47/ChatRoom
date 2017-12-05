@@ -10,6 +10,7 @@ public class ClientConnectionWatcher extends Thread {
 		this.socket = socket;
 	}
 
+	// Waits for a client to disconnect then prints a message to the server terminal
 	public void run() {
 		try {
 			hostThread.join();
