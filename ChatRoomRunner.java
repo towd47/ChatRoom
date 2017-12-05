@@ -11,15 +11,16 @@ public class ChatRoomRunner {
 		if (args.length >= 2) {
 			port = Integer.parseInt(args[1]);
 		}
+
 		Socket_Client client = new Socket_Client(host, port);
 
-		if (!client.startClient()) {
+		if (!client.startClient()) { // Attempts to start client session
 			System.out.println("Would you like to host a server? (y/n)");
 			Scanner scanner = new Scanner(System.in);
 			String input = scanner.nextLine();
 			if (input.equals("y")) {
 				System.out.println("Now starting new server on port " + port + ".");
-				Socket_Host.socket_host();
+				Socket_Host.socket_host(); // Starts Server if you didnt connect to one
 			}
 		}
 		

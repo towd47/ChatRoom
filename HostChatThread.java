@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
+// Handles the Client while in a chat room
 public class HostChatThread extends Thread {
 	protected Socket socket;
     private String roomName;

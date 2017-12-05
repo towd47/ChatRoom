@@ -41,8 +41,11 @@ public class Socket_Host {
 				e.printStackTrace();
 			}
 
-			HostThread hostThread = new HostThread(conn);
+			// Creates a HostThread to manage each connection
+			HostThread hostThread = new HostThread(conn); 
 			hostThread.start();
+
+			// Creates a Thread that waits for the hostThread to join as a sign the client disconnected
 			new ClientConnectionWatcher(hostThread, conn).start();
 			clientList.add(conn);
 		}

@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
+// Handles the client for joining and creating chat rooms
 public class HostThread extends Thread {
 	protected Socket socket;
     PrintStream out;
@@ -44,7 +45,7 @@ public class HostThread extends Thread {
         }
 	}
 
-    private boolean runCommand(String command) {
+    private boolean runCommand(String command) { // Handles input from the client
         switch (command) {
             case "join":
                 joinCommand();
