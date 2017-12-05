@@ -36,8 +36,8 @@ public class HostChatThread extends Thread {
                 }
                 for (ChatRoom room: Socket_Host.getRooms()) {
                     if (room.roomName.equals(this.roomName)) {
-                        //for (Socket s: room.getMembers()) {
-                        for (Socket s: Socket_Host.getClients()) {
+                        for (Socket s: room.getMembers()) {
+                        //for (Socket s: Socket_Host.getClients()) {
                         	out = new PrintStream(s.getOutputStream());
                     	    out.println(username + ": " + line);
                         }

@@ -11,11 +11,13 @@ public class ChatRoom {
 	public ChatRoom(String roomName) {
 		this.roomName = roomName;
 		this.password = "";
+		members = new ArrayList<Socket>();
 	}
 
 	public ChatRoom(String roomName, String password) {
 		this.roomName = roomName;
 		this.password = password;
+		members = new ArrayList<Socket>();
 	}
 
 	public void addMember(Socket member) {
