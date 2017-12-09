@@ -20,6 +20,7 @@ public class ClientOutputThread extends Thread{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("ClientOutputThread closing");
 		return;
 	}
 

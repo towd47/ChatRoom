@@ -48,6 +48,12 @@ public class Socket_Client {
 		inputThread.interrupt();
 		System.out.print("Connection to server lost, press any key to exit.");
 		
+		try {
+			socket.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	    return true;
 	}
 	

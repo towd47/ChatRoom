@@ -83,7 +83,7 @@ public class HostThread extends Thread {
             out.println("Please enter a name for your chat room:");
             line = getInput();
             for (ChatRoom room: rooms) {
-                if (line == room.roomName) {
+                if (line.equalsIgnoreCase(room.roomName)) {
                     out.println("There is already a chat room with that name.");
                     roomAvailable = false;
                 }
@@ -92,12 +92,7 @@ public class HostThread extends Thread {
         String name = line;
         String password = "";
         out.println("Please enter a password or leave blank for no password:");
-        try {
-                line = brin.readLine();
-        }
-        catch (IOException e) {
-            return false;
-        }
+        line = getInput();
         ChatRoom newRoom;
         if (line != "") {
             newRoom = new ChatRoom(name, line);
