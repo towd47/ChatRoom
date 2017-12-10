@@ -123,7 +123,7 @@ public class HostThread extends Thread {
         String line = getInput();
         String passIn = "";
         for (ChatRoom room: rooms) {
-            if (room.roomName.equals(line.trim())) {
+            if (room.roomName.equalsIgnoreCase(line.trim())) {
             	if (room.hasPassword) {
             		out.println("Please enter the password for this room.");
             		passIn = getInput();
