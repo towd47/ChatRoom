@@ -7,16 +7,19 @@ public class ChatRoom {
 	private ArrayList<Socket> members;
 	private String password;
 	public String roomName;
+	public boolean hasPassword;
 
 	public ChatRoom(String roomName) {
 		this.roomName = roomName;
 		this.password = "";
+		this.hasPassword = false;
 		members = new ArrayList<Socket>();
 	}
 
 	public ChatRoom(String roomName, String password) {
 		this.roomName = roomName;
 		this.password = password;
+		this.hasPassword = true;
 		members = new ArrayList<Socket>();
 	}
 
@@ -30,5 +33,12 @@ public class ChatRoom {
 
 	public ArrayList<Socket> getMembers() {
 		return members;
+	}
+	
+	public boolean checkPassword(String passIn) {
+		if(passIn.equals(password)) {
+			return true;
+		}
+		return false;
 	}
 }

@@ -92,10 +92,11 @@ public class HostThread extends Thread {
         String name = line;
         String password = "";
         out.println("Please enter a password or leave blank for no password:");
-        line = getInput();
+        password = getInput();
         ChatRoom newRoom;
-        if (line != "") {
-            newRoom = new ChatRoom(name, line);
+        if (!password.equals("")) {
+        	System.out.println("Test");
+            newRoom = new ChatRoom(name, password);
         }
         else {
             newRoom = new ChatRoom(name);
@@ -117,10 +118,24 @@ public class HostThread extends Thread {
         }
         out.println("Which room would you like to join?");
         String line = getInput();
+        String passIn = "";
         for (ChatRoom room: rooms) {
             if (room.roomName.equals(line.trim())) {
-                joinRoom(room);
-                return;
+            	if (room.hasPassword) {
+            		out.println("Please enter the password for this room.");
+            		passIn = getInput();
+            		if (room.checkPassword(passIn)) {
+                        joinRoom(room);
+                        return;
+            		}
+                	else {
+                		out.println("The password entered for this room is incorrect.");
+                	}
+            	}
+            	else {
+                    joinRoom(room);
+                    return;
+                }
             }
         }
         out.println("No chat room with the name '" + line + "' was found.");
