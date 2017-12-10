@@ -80,11 +80,14 @@ public class HostThread extends Thread {
         String line = "";
         while (!roomAvailable) {
             roomAvailable = true;
-            out.println("Please enter a name for your chat room:");
+            out.println("Please enter a name for your chat room or leave blank to cancel:");
             line = getInput();
+            if (line == "" || line == null) {
+                return false;
+            }
             for (ChatRoom room: rooms) {
                 if (line.equalsIgnoreCase(room.roomName)) {
-                    out.println("There is already a chat room with that name.");
+                    out.println("There is already a chat room with the name: " + line + ".");
                     roomAvailable = false;
                 }
             }
@@ -118,7 +121,7 @@ public class HostThread extends Thread {
         out.println("Which room would you like to join?");
         String line = getInput();
         for (ChatRoom room: rooms) {
-            if (room.roomName.equals(line.trim())) {
+            if (room.roomName.equalsIgnoreCase(line.trim())) {
                 joinRoom(room);
                 return;
             }
