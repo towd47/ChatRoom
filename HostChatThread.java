@@ -28,7 +28,7 @@ public class HostChatThread extends Thread {
         try {
             in = socket.getInputStream();
             brin = new BufferedReader(new InputStreamReader(in));
-
+            sendMessageToAllClients("User: '" +  username + "' has joined the room.");
         } catch (IOException e) {
             return;
         }
@@ -39,7 +39,7 @@ public class HostChatThread extends Thread {
             try {
                 line = brin.readLine();
                 if (line == null || line.length() == 0) {
-
+                    
                 } else if (line.startsWith("/")) {
                     if (!commandHandler(line)) {
                         return;
