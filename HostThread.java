@@ -25,19 +25,22 @@ public class HostThread extends Thread {
             return;
         }
 
-        out.println("Please enter your username:");
+        out.println(HostChatThread.ANSI_BOLD + "Please enter your username:" + HostChatThread.ANSI_RESET);
 
         String line;
         try {
             username = brin.readLine();
-            out.println("Your username is: " + username);
+            out.println("* * * * * * * *");
+            out.println(HostChatThread.ANSI_BOLD + "Welcome to our chat server, " + username + HostChatThread.ANSI_RESET);
+            out.println("* * * * * * * *");
         }
         catch (IOException e) {
             e.printStackTrace();
         }
 
         while (true) {
-            out.println("What would you like to do?\njoin\ncreate\nchange name\nquit");
+            out.println(HostChatThread.ANSI_BOLD + "What would you like to do?" + HostChatThread.ANSI_RESET);
+            out.println(HostChatThread.ANSI_UNDERLINE + "join\ncreate\nchange name\nquit" + HostChatThread.ANSI_RESET);
             line = getInput();
             if (line == null || !runCommand(line.trim())) {
                 return;
@@ -54,11 +57,11 @@ public class HostThread extends Thread {
                 createRoom();
                 break;
             case "change name": 
-                out.println("Please enter your username:");
+                out.println(HostChatThread.ANSI_BOLD + "Please enter your username:" + HostChatThread.ANSI_RESET);
                 String line = getInput();
                 if (line != null && line.length() > 0) {
                     username = line;
-                    out.println("Your username is: " + username);
+                    out.println("Your username has been updated to: " + username);
                 }
                 break;
             case "quit":
@@ -80,7 +83,7 @@ public class HostThread extends Thread {
         String line = "";
         while (!roomAvailable) {
             roomAvailable = true;
-            out.println("Please enter a name for your chat room:");
+            out.println(HostChatThread.ANSI_BOLD + "Please enter a name for your chat room:" + HostChatThread.ANSI_RESET);
             line = getInput();
             if (line == "" || line == null) {
                 return false;
@@ -94,7 +97,7 @@ public class HostThread extends Thread {
         }
         String name = line;
         String password = "";
-        out.println("Please enter a password or leave blank for no password:");
+        out.println(HostChatThread.ANSI_BOLD + "Please enter a password or leave blank for no password:" + HostChatThread.ANSI_RESET);
         password = getInput();
         ChatRoom newRoom;
         if (!password.equals("")) {
@@ -115,17 +118,17 @@ public class HostThread extends Thread {
             out.println("There are no available chatrooms at this time.");
             return;
         }
-        out.println("The available rooms are:");
+        out.println(HostChatThread.ANSI_BOLD + "The available rooms are:" + HostChatThread.ANSI_RESET);
         for (ChatRoom room: rooms) {
-            out.println(room.roomName);
+            out.println(HostChatThread.ANSI_UNDERLINE + room.roomName + HostChatThread.ANSI_RESET);
         }
-        out.println("Which room would you like to join?");
+        out.println(HostChatThread.ANSI_BOLD + "Which room would you like to join?" + HostChatThread.ANSI_RESET);
         String line = getInput();
         String passIn = "";
         for (ChatRoom room: rooms) {
             if (room.roomName.equalsIgnoreCase(line.trim())) {
             	if (room.hasPassword) {
-            		out.println("Please enter the password for this room.");
+            		out.println(HostChatThread.ANSI_BOLD + "Please enter the password for this room." + HostChatThread.ANSI_RESET);
             		passIn = getInput();
             		if (room.checkPassword(passIn)) {
                         joinRoom(room);

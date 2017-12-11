@@ -32,10 +32,6 @@ public class Socket_Host {
 			try {
 				conn = socket.accept();
 				System.out.println("Connection received from " + conn.getInetAddress().getHostName() + " : " + conn.getPort());
-				out = new PrintStream(conn.getOutputStream());
-				out.flush();
-				out.println("Welcome to our chat server.");
-				out.flush();
 
 			} catch(IOException e) {
 				e.printStackTrace();
