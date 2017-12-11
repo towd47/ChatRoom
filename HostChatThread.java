@@ -9,14 +9,7 @@ public class HostChatThread extends Thread {
     private String username;
     private PrintStream clientPrintStream;
     private Socket_Host host;
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BOLD = "\u001B[1m";
-    public static final String ANSI_UNDERLINE = "\u001B[4m";
-    public static final String ANSI_BLACK = "\u001B[30m";
-    public static final String ANSI_WHITE = "\u001B[37m";
-    //Colors in array are as follows: RED, GREEN, YELLOW, BLUE, PURPLE, CYAN, GRAY
-    private final String[] colors = {"\u001B[31m", "\u001B[32m", "\u001B[33m", "\u001B[34m", "\u001B[35m", "\u001B[36m", "\u001B[90m"};
-
+    
 	public HostChatThread(Socket clientSocket, String roomName, String username, Socket_Host host) {
 		this.socket = clientSocket;
         this.roomName = roomName;
@@ -94,8 +87,8 @@ public class HostChatThread extends Thread {
                     out = new PrintStream(s.getOutputStream());
                     int i = room.getUsers().indexOf(socket);
 
-                    out.print(colors[i%6] + ANSI_BOLD + username + ": " + ANSI_RESET);
-                    out.println(colors[i%6] + msg + ANSI_RESET);
+                    out.print(ANSI.colors[i%6] + ANSI.BOLD + username + ": " + ANSI.RESET);
+                    out.println(ANSI.colors[i%6] + msg + ANSI.RESET);
                 }
                 break;
             }
@@ -110,7 +103,7 @@ public class HostChatThread extends Thread {
                     out = new PrintStream(s.getOutputStream());
                     int i = room.getUsers().indexOf(socket);
 
-                    out.println(colors[(i)%6] + msg + ANSI_RESET);
+                    out.println(ANSI.colors[(i)%6] + msg + ANSI.RESET);
                 }
                 break;
             }
