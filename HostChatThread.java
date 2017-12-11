@@ -33,7 +33,7 @@ public class HostChatThread extends Thread {
         try {
             in = socket.getInputStream();
             brin = new BufferedReader(new InputStreamReader(in));
-            sendMessageToAllClients("User: '" +  username + "' has joined the room.");
+            sendMessageToAllClientsWithoutUsername("User: '" +  username + "' has joined the room.");
         } catch (IOException e) {
             return;
         }
@@ -90,6 +90,21 @@ public class HostChatThread extends Thread {
                     int i = room.getUsers().indexOf(socket);
 
                     out.println(colors[(i)%6] + username + ": " + msg + ANSI_RESET);
+                }
+                break;
+            }
+        }
+    }
+
+    private void sendMessageToAllClientsWithoutUsername(String msg) throws IOException {
+        PrintStream out = null;
+        for (ChatRoom room: Socket_Host.getRooms()) {
+            if (room.roomName.equals(this.roomName)) {
+                 for (Socket s: room.getMembers()) {
+                    out = new PrintStream(s.getOutputStream());
+                    int i = room.getUsers().indexOf(socket);
+
+                    out.println(colors[(i)%6] + msg + ANSI_RESET);
                 }
                 break;
             }
