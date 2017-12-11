@@ -7,10 +7,16 @@ import java.util.ArrayList;
 
 public class Socket_Host {
 
-	static ArrayList<Socket> clientList = new ArrayList<Socket>();
-	static ArrayList<ChatRoom> chatRooms = new ArrayList<ChatRoom>();
+	private ArrayList<Socket> clientList = new ArrayList<Socket>();
+	private ArrayList<ChatRoom> chatRooms = new ArrayList<ChatRoom>();
 
-	public static void socket_host() {
+	private int port;
+
+	public Socket_Host(int port) {
+		this.port = port;
+	}
+
+	public void run() {
 		ServerSocket socket = null;
 		Socket conn = null;
 		PrintStream out = null;
@@ -38,7 +44,7 @@ public class Socket_Host {
 			}
 
 			// Creates a HostThread to manage each connection
-			HostThread hostThread = new HostThread(conn); 
+			HostThread hostThread = new HostThread(conn, this); 
 			hostThread.start();
 
 			// Creates a Thread that waits for the hostThread to join as a sign the client disconnected
@@ -47,19 +53,19 @@ public class Socket_Host {
 		}
 	}
 	
-	public static ArrayList<Socket> getClients() {
+	public ArrayList<Socket> getClients() {
 		return clientList;
 	}
 
-	public static ArrayList<ChatRoom> getRooms() {
+	public ArrayList<ChatRoom> getRooms() {
 		return chatRooms;
 	}
 
-	public static void addChatRoom(ChatRoom room) {
+	public void addChatRoom(ChatRoom room) {
 		chatRooms.add(room);
 	}
 
-	public static boolean removeRoom(ChatRoom room) {
+	public boolean removeRoom(ChatRoom room) {
 		return chatRooms.remove(room);
 	}
 }

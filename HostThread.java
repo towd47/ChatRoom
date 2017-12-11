@@ -5,12 +5,14 @@ import java.util.ArrayList;
 // Handles the client for joining and creating chat rooms
 public class HostThread extends Thread {
 	protected Socket socket;
-    PrintStream out;
-    BufferedReader brin;
+    private PrintStream out;
+    private BufferedReader brin;
     private String username;
+    private Socket_Host host;
 
-	public HostThread(Socket clientSocket) {
+	public HostThread(Socket clientSocket, Socket_Host host) {
 		this.socket = clientSocket;
+        this.host = host;
 	}
 
 	public void run() {
@@ -78,7 +80,7 @@ public class HostThread extends Thread {
     }
 
     private boolean createRoom() {
-        ArrayList<ChatRoom> rooms = Socket_Host.getRooms();
+        ArrayList<ChatRoom> rooms = host.getRooms();
         boolean roomAvailable = false;
         String line = "";
         while (!roomAvailable) {
@@ -107,13 +109,13 @@ public class HostThread extends Thread {
         else {
             newRoom = new ChatRoom(name);
         }
-        Socket_Host.addChatRoom(newRoom);
+        host.addChatRoom(newRoom);
         joinRoom(newRoom);
         return true;
     }
 
     private void joinCommand() {
-        ArrayList<ChatRoom> rooms = Socket_Host.getRooms();
+        ArrayList<ChatRoom> rooms = host.getRooms();
         if (rooms.size() == 0) {
             out.println("There are no available chatrooms at this time.");
             return;
@@ -136,6 +138,7 @@ public class HostThread extends Thread {
             		}
                 	else {
                 		out.println("The password entered for this room is incorrect.");
+                        return;
                 	}
             	}
             	else {
@@ -149,14 +152,13 @@ public class HostThread extends Thread {
 
     private void joinRoom(ChatRoom room) {
         room.addMember(socket);
-        out.println("Joining room: " + room.roomName + ".");
-        HostChatThread chatThread = new HostChatThread(socket, room.roomName, username);
+        HostChatThread chatThread = new HostChatThread(socket, room.roomName, username, host);
         chatThread.start();
         try {
             chatThread.join();
             room.removeMember(socket);
             if (room.getMembers().size() == 0) {
-                Socket_Host.removeRoom(room);
+                host.removeRoom(room);
             }
         }
         catch (InterruptedException e) {

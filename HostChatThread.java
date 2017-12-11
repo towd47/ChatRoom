@@ -8,6 +8,7 @@ public class HostChatThread extends Thread {
     private String roomName;
     private String username;
     private PrintStream clientPrintStream;
+    private Socket_Host host;
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BOLD = "\u001B[1m";
     public static final String ANSI_UNDERLINE = "\u001B[4m";
@@ -16,10 +17,11 @@ public class HostChatThread extends Thread {
     //Colors in array are as follows: RED, GREEN, YELLOW, BLUE, PURPLE, CYAN, GRAY
     private final String[] colors = {"\u001B[31m", "\u001B[32m", "\u001B[33m", "\u001B[34m", "\u001B[35m", "\u001B[36m", "\u001B[90m"};
 
-	public HostChatThread(Socket clientSocket, String roomName, String username) {
+	public HostChatThread(Socket clientSocket, String roomName, String username, Socket_Host host) {
 		this.socket = clientSocket;
         this.roomName = roomName;
         this.username = username;
+        this.host = host;
         try {
             clientPrintStream = new PrintStream(socket.getOutputStream());
         }
@@ -35,6 +37,7 @@ public class HostChatThread extends Thread {
         try {
             in = socket.getInputStream();
             brin = new BufferedReader(new InputStreamReader(in));
+            clientPrintStream.print("\033[H\033[2J");
             sendMessageToAllClientsWithoutUsername("User: '" +  username + "' has joined the room.");
         } catch (IOException e) {
             return;
@@ -85,7 +88,7 @@ public class HostChatThread extends Thread {
 
     private void sendMessageToAllClients(String msg) throws IOException {
         PrintStream out = null;
-        for (ChatRoom room: Socket_Host.getRooms()) {
+        for (ChatRoom room: host.getRooms()) {
             if (room.roomName.equals(this.roomName)) {
                  for (Socket s: room.getMembers()) {
                     out = new PrintStream(s.getOutputStream());
@@ -101,7 +104,7 @@ public class HostChatThread extends Thread {
 
     private void sendMessageToAllClientsWithoutUsername(String msg) throws IOException {
         PrintStream out = null;
-        for (ChatRoom room: Socket_Host.getRooms()) {
+        for (ChatRoom room: host.getRooms()) {
             if (room.roomName.equals(this.roomName)) {
                  for (Socket s: room.getMembers()) {
                     out = new PrintStream(s.getOutputStream());
