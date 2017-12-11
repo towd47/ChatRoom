@@ -94,7 +94,7 @@ public class HostChatThread extends Thread {
                     out = new PrintStream(s.getOutputStream());
                     int i = room.getUsers().indexOf(socket);
 
-                    out.println(colors[(i)%6] + username + ": " + msg + " - " + ANSI_RESET);
+                    out.println(colors[(i)%6] + username + ": " + msg + ANSI_RESET);
                 }
                 break;
             }
