@@ -88,9 +88,14 @@ public class HostChatThread extends Thread {
                         out = new PrintStream(s.getOutputStream());
                         int i = room.getUsers().indexOf(socket);
 
-                        out.print(ANSI.colors[i%6] + ANSI.BOLD + username + ": " + ANSI.RESET);
-                        out.println(ANSI.colors[i%6] + msg + ANSI.RESET);
+<<<<<<< HEAD
+                        out.print(colors[i%6] + ANSI_BOLD + username + ": " + ANSI_RESET);
+                        out.println(colors[i%6] + msg + ANSI_RESET);
                     }
+=======
+                    out.print(ANSI.colors[i%6] + ANSI.BOLD + username + ": " + ANSI.RESET);
+                    out.println(ANSI.colors[i%6] + msg + ANSI.RESET);
+>>>>>>> 4ea9060ca815eb91ab45cd95403d817bdd4f0ec3
                 }
                 break;
             }

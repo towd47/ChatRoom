@@ -27,13 +27,13 @@ public class HostThread extends Thread {
             return;
         }
 
-        out.println(HostChatThread.ANSI_BOLD + "Please enter your username:" + HostChatThread.ANSI_RESET);
+        out.println(ANSI.BOLD + "Please enter your username:" + ANSI.RESET);
 
         String line;
         try {
             username = brin.readLine();
             out.println("* * * * * * * *");
-            out.println(HostChatThread.ANSI_BOLD + "Welcome to our chat server, " + username + HostChatThread.ANSI_RESET);
+            out.println(ANSI.BOLD + "Welcome to our chat server, " + username + ANSI.RESET);
             out.println("* * * * * * * *");
         }
         catch (IOException e) {
@@ -41,8 +41,8 @@ public class HostThread extends Thread {
         }
 
         while (true) {
-            out.println(HostChatThread.ANSI_BOLD + "What would you like to do?" + HostChatThread.ANSI_RESET);
-            out.println(HostChatThread.ANSI_UNDERLINE + "join\ncreate\nchange name\nquit" + HostChatThread.ANSI_RESET);
+            out.println(ANSI.BOLD + "What would you like to do?" + ANSI.RESET);
+            out.println(ANSI.UNDERLINE + "join\ncreate\nchange name\nquit" + ANSI.RESET);
             line = getInput();
             if (line == null || !runCommand(line.trim())) {
                 return;
@@ -59,7 +59,7 @@ public class HostThread extends Thread {
                 createRoom();
                 break;
             case "change name": 
-                out.println(HostChatThread.ANSI_BOLD + "Please enter your username:" + HostChatThread.ANSI_RESET);
+                out.println(ANSI.BOLD + "Please enter your username:" + ANSI.RESET);
                 String line = getInput();
                 if (line != null && line.length() > 0) {
                     username = line;
@@ -85,7 +85,7 @@ public class HostThread extends Thread {
         String line = "";
         while (!roomAvailable) {
             roomAvailable = true;
-            out.println(HostChatThread.ANSI_BOLD + "Please enter a name for your chat room:" + HostChatThread.ANSI_RESET);
+            out.println(ANSI.BOLD + "Please enter a name for your chat room:" + ANSI.RESET);
             line = getInput();
             if (line == "" || line == null) {
                 return false;
@@ -99,7 +99,7 @@ public class HostThread extends Thread {
         }
         String name = line;
         String password = "";
-        out.println(HostChatThread.ANSI_BOLD + "Please enter a password or leave blank for no password:" + HostChatThread.ANSI_RESET);
+        out.println(ANSI.BOLD + "Please enter a password or leave blank for no password:" + ANSI.RESET);
         password = getInput();
         ChatRoom newRoom;
         if (!password.equals("")) {
@@ -120,17 +120,17 @@ public class HostThread extends Thread {
             out.println("There are no available chatrooms at this time.");
             return;
         }
-        out.println(HostChatThread.ANSI_BOLD + "The available rooms are:" + HostChatThread.ANSI_RESET);
+        out.println(ANSI.BOLD + "The available rooms are:" + ANSI.RESET);
         for (ChatRoom room: rooms) {
-            out.println(HostChatThread.ANSI_UNDERLINE + room.roomName + HostChatThread.ANSI_RESET);
+            out.println(ANSI.UNDERLINE + room.roomName + ANSI.RESET);
         }
-        out.println(HostChatThread.ANSI_BOLD + "Which room would you like to join?" + HostChatThread.ANSI_RESET);
+        out.println(ANSI.BOLD + "Which room would you like to join?" + ANSI.RESET);
         String line = getInput();
         String passIn = "";
         for (ChatRoom room: rooms) {
             if (room.roomName.equalsIgnoreCase(line.trim())) {
             	if (room.hasPassword) {
-            		out.println(HostChatThread.ANSI_BOLD + "Please enter the password for this room." + HostChatThread.ANSI_RESET);
+            		out.println(ANSI.BOLD + "Please enter the password for this room." + ANSI.RESET);
             		passIn = getInput();
             		if (room.checkPassword(passIn)) {
                         joinRoom(room);
