@@ -17,6 +17,5 @@ public class ClientInputThread extends Thread{
 			writer.println(input);
 			writer.flush();
 		}
-		System.out.println("System Input Thread closing");
 	}
 }

@@ -54,6 +54,7 @@ public class Socket_Client {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
+		//System.out.print(ANSI_RESET);
 	    return true;
 	}
 	

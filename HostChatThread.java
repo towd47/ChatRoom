@@ -91,11 +91,13 @@ public class HostChatThread extends Thread {
         for (ChatRoom room: host.getRooms()) {
             if (room.roomName.equals(this.roomName)) {
                  for (Socket s: room.getMembers()) {
-                    out = new PrintStream(s.getOutputStream());
-                    int i = room.getUsers().indexOf(socket);
+                    if (s != socket) {
+                        out = new PrintStream(s.getOutputStream());
+                        int i = room.getUsers().indexOf(socket);
 
-                    out.print(colors[i%6] + ANSI_BOLD + username + ": " + ANSI_RESET);
-                    out.println(colors[i%6] + msg + ANSI_RESET);
+                        out.print(colors[i%6] + ANSI_BOLD + username + ": " + ANSI_RESET);
+                        out.println(colors[i%6] + msg + ANSI_RESET);
+                    }
                 }
                 break;
             }
