@@ -103,7 +103,6 @@ public class HostThread extends Thread {
         password = getInput();
         ChatRoom newRoom;
         if (!password.equals("")) {
-        	System.out.println("Test");
             newRoom = new ChatRoom(name, password);
         }
         else {
