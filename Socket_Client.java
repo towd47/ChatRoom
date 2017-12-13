@@ -46,7 +46,7 @@ public class Socket_Client {
 
 		}
 		inputThread.interrupt();
-		System.out.print("Connection to server lost, press any key to exit.");
+		System.out.print("Disconnected from server, press any key to exit.");
 		
 		try {
 			socket.close();
@@ -54,7 +54,7 @@ public class Socket_Client {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		//System.out.print(ANSI_RESET);
+		System.out.print(ANSI.RESET);
 	    return true;
 	}
 	

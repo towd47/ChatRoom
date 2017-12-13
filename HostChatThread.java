@@ -30,7 +30,7 @@ public class HostChatThread extends Thread {
         try {
             in = socket.getInputStream();
             brin = new BufferedReader(new InputStreamReader(in));
-            clientPrintStream.print("\033[H\033[2J");
+            clientPrintStream.print("\033[2J\033[H");
             sendMessageToAllClientsWithoutUsername("User: '" +  username + "' has joined the room.");
         } catch (IOException e) {
             return;
@@ -48,6 +48,7 @@ public class HostChatThread extends Thread {
                         return;
                     }
                 } else {
+                    clientPrintStream.print("\033[1F\033[K");
                     sendMessageToAllClients(line);
                 }
 
@@ -68,7 +69,12 @@ public class HostChatThread extends Thread {
         }
         switch (command.substring(1)) {
             case "quit":
-                clientPrintStream.println("Leaving ChatRoom: " + roomName + ".");
+                try {
+                    sendMessageToAllClientsWithoutUsername("User: '" +  username + "' has left the room.");
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return false;
             default:
                 clientPrintStream.println("Command " + command + " not found.");
@@ -84,13 +90,10 @@ public class HostChatThread extends Thread {
         for (ChatRoom room: host.getRooms()) {
             if (room.roomName.equals(this.roomName)) {
                  for (Socket s: room.getMembers()) {
-                    if (s != socket) {
-                        out = new PrintStream(s.getOutputStream());
-                        int i = room.getUsers().indexOf(socket);
-
-                        out.print(ANSI.colors[i%6] + ANSI.BOLD + username + ": " + ANSI.RESET);
-                        out.println(ANSI.colors[i%6] + msg + ANSI.RESET);
-                    }
+                    out = new PrintStream(s.getOutputStream());
+                    int i = room.getUsers().indexOf(socket);
+                    out.print(ANSI.colors[i%6] + ANSI.BOLD + username + ": " + ANSI.RESET);
+                    out.println(ANSI.colors[i%6] + msg + ANSI.RESET);
                 }
                 break;
             }

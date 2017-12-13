@@ -9,7 +9,7 @@ public class ChatRoomClientRunner {
 		if (args.length >= 2) {
 			port = Integer.parseInt(args[1]);
 		}
-
+		System.out.print("\033[2J\033[H");
 		Socket_Client client = new Socket_Client(host, port);
 
 		if (!client.startClient()) { // Attempts to start client session

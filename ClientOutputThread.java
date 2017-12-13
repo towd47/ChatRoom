@@ -18,12 +18,10 @@ public class ClientOutputThread extends Thread{
 			while ((response = s_in.readLine()) != null) 
 			{
 			    System.out.println( response );
-			    System.out.print("\b");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return;
 	}
-
 }
